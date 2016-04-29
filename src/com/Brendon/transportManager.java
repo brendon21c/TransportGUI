@@ -17,6 +17,9 @@ public class transportManager {
 
     public static String DBName = "Driver_Order_Records";
     public static String DriverTable = "DriverTable";
+    public static String PickupTable = "PickUpTable";
+    public static String DeliveryTable = "DeliveryTable";
+
 
     static Statement statement = null;
     static Connection conn = null;
@@ -85,6 +88,22 @@ public class transportManager {
                 prepInsert.executeUpdate();
             }
 
+            if (!pickUpTableCheck()) {
+
+                String newTable = "create table " + PickupTable + " (OrderNum int, Address varchar(60), ContactName varchar(60), " +
+                        "Pieces int, TotalWeight double, DriverID int, PRIMARY KEY(OrderNum))";
+                System.out.println(newTable);
+                statement.executeUpdate(newTable);
+            }
+
+            if (!delTableCheck()) {
+
+                String newTable = "CREATE TABLE " + DeliveryTable + " (OrderNum int, Address varchar(60), ContactName varchar(60), " +
+                        "Pieces INT , TotalWeight DOUBLE, DriverID int, PRIMARY KEY(OrderNum))";
+                statement.executeUpdate(newTable);
+
+            }
+
             return true;
 
         } catch (SQLException SQLE) {
@@ -108,4 +127,27 @@ public class transportManager {
         return false;
 
     }
+
+    private static boolean pickUpTableCheck() throws SQLException { // checks for pickup table
+
+        String checkDriverTable = "SHOW TABLES LIKE '" + PickupTable + "'";
+        ResultSet tablesRS = statement.executeQuery(checkDriverTable);
+        if (tablesRS.next()) {
+            return true;
+        }
+        return false;
+
+    }
+
+    private static boolean delTableCheck() throws SQLException { // checks for delivery table
+
+        String checkDriverTable = "SHOW TABLES LIKE '" + DeliveryTable + "'";
+        ResultSet tablesRS = statement.executeQuery(checkDriverTable);
+        if (tablesRS.next()) {
+            return true;
+        }
+        return false;
+
+    }
+
 }
