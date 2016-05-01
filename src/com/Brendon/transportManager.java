@@ -1,12 +1,7 @@
 package com.Brendon;
 
 
-import com.sun.xml.internal.bind.v2.TODO;
-
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 
 public class transportManager {
@@ -21,12 +16,15 @@ public class transportManager {
     public static String DeliveryTable = "DeliveryTable";
 
 
-    static Statement statement = null;
+    public static Statement statementDriver = null;
+    public static Statement statementPU = null;
+    public static Statement statementDel = null;
+
     static Connection conn = null;
 
     public static ResultSet resSetDriver = null; // Driver resultset
-    public static ResultSet resSetPickUpr = null;// pickup orders resultset
-    public static ResultSet resSetDropOff = null;// dropoff orders resultset
+    public static ResultSet resSetPickUp = null;// pickup orders resultset
+    public static ResultSet resSetDel = null;// dropoff orders resultset
     public static PreparedStatement prepInsert;
 
 
@@ -64,7 +62,9 @@ public class transportManager {
 
 
             conn = DriverManager.getConnection(DB_CONNECTION_URL + DBName, USER, PASSWORD);
-            statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            statementDriver = conn.createStatement(resSetDriver.TYPE_SCROLL_INSENSITIVE, resSetDriver.CONCUR_UPDATABLE);
+            statementPU = conn.createStatement(resSetPickUp.TYPE_SCROLL_INSENSITIVE, resSetPickUp.CONCUR_UPDATABLE);
+            statementDel = conn.createStatement(resSetDel.TYPE_SCROLL_INSENSITIVE, resSetDel.CONCUR_UPDATABLE);
 
 
 
@@ -76,7 +76,7 @@ public class transportManager {
 
 
                 String newTable = "create table " + DriverTable + " (DriverID int, StartingLocation varchar(60), PRIMARY KEY (DriverID))";
-                statement.executeUpdate(newTable);
+                statementDriver.executeUpdate(newTable);
 
 
                 String prestate = "insert into " + DriverTable + " values ( ? , ? )";
@@ -93,14 +93,15 @@ public class transportManager {
                 String newTable = "create table " + PickupTable + " (OrderNum int, Address varchar(60), ContactName varchar(60), " +
                         "Pieces int, TotalWeight double, DriverID int, PRIMARY KEY(OrderNum))";
                 System.out.println(newTable);
-                statement.executeUpdate(newTable);
+                statementPU.executeUpdate(newTable);
             }
 
             if (!delTableCheck()) {
 
                 String newTable = "CREATE TABLE " + DeliveryTable + " (OrderNum int, Address varchar(60), ContactName varchar(60), " +
                         "Pieces INT , TotalWeight DOUBLE, DriverID int, PRIMARY KEY(OrderNum))";
-                statement.executeUpdate(newTable);
+                System.out.println(newTable);
+                statementDel.executeUpdate(newTable);
 
             }
 
@@ -120,7 +121,7 @@ public class transportManager {
     private static boolean driverTableCheck() throws SQLException {
 
         String checkDriverTable = "SHOW TABLES LIKE '" + DriverTable + "'";
-        ResultSet tablesRS = statement.executeQuery(checkDriverTable);
+        ResultSet tablesRS = statementDriver.executeQuery(checkDriverTable);
         if (tablesRS.next()) {
             return true;
         }
@@ -128,10 +129,11 @@ public class transportManager {
 
     }
 
+
     private static boolean pickUpTableCheck() throws SQLException { // checks for pickup table
 
         String checkDriverTable = "SHOW TABLES LIKE '" + PickupTable + "'";
-        ResultSet tablesRS = statement.executeQuery(checkDriverTable);
+        ResultSet tablesRS = statementPU.executeQuery(checkDriverTable);
         if (tablesRS.next()) {
             return true;
         }
@@ -142,7 +144,7 @@ public class transportManager {
     private static boolean delTableCheck() throws SQLException { // checks for delivery table
 
         String checkDriverTable = "SHOW TABLES LIKE '" + DeliveryTable + "'";
-        ResultSet tablesRS = statement.executeQuery(checkDriverTable);
+        ResultSet tablesRS = statementDel.executeQuery(checkDriverTable);
         if (tablesRS.next()) {
             return true;
         }
