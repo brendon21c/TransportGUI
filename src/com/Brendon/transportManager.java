@@ -25,10 +25,15 @@ public class transportManager {
     public static ResultSet resSetDriver = null; // Driver resultset
     public static ResultSet resSetPickUp = null;// pickup orders resultset
     public static ResultSet resSetDel = null;// dropoff orders resultset
-    public static PreparedStatement prepInsert;
+
+    public static PreparedStatement prepInsert; // for driver
 
 
     public LinkedList<Integer> Drivers = new LinkedList<Integer>();
+    public static int driverID = 1888833;
+    public static String startLoc = "3634 Cecilia Circle, Edina MN";
+
+    private static DriverModel TransportTable;
 
 
     public static void main(String[] args) {
@@ -40,6 +45,60 @@ public class transportManager {
         }
 
 
+        if (!loadTables()) {
+            System.out.println("Problem loading table. Quitting.");
+            System.exit(-1);
+        }
+
+        driverMain driver = new driverMain(TransportTable);
+    }
+
+    /*
+    This block of code will load tables into the respective Resultsets.
+     */
+    public static boolean loadTables() {
+
+        try {
+
+            if (resSetDriver != null) {
+                resSetDriver.close();
+            }
+            if (resSetPickUp != null) {
+                resSetPickUp.close();
+            }
+            if (resSetDel != null) {
+                resSetDel.close();
+            }
+
+
+            String loadDriver = "SELECT * FROM " + DriverTable;
+            resSetDriver = statementDriver.executeQuery(loadDriver);
+
+            if (TransportTable == null) {
+
+                TransportTable = new DriverModel(resSetDriver);
+
+            } else {
+
+                TransportTable.UpdateRS(resSetDriver);
+            }
+
+
+
+            String loadPU = "SELECT * FROM " + PickupTable;
+            resSetPickUp = statementPU.executeQuery(loadPU);
+
+            String loadDEL = "SELECT * FROM " + DeliveryTable;
+            resSetDel = statementDel.executeQuery(loadDEL);
+
+            return true;
+
+        } catch (Exception E) {
+
+            System.out.println("error loading tables");
+            E.printStackTrace();
+            return false;
+        }
     }
 
 
@@ -83,8 +142,8 @@ public class transportManager {
                 prepInsert = conn.prepareStatement(prestate);
 
                 //TODO add the remaining drivers.
-                prepInsert.setInt(1, 1888833);
-                prepInsert.setString(2, "3634 Cecilia Circle, Edina MN");
+                prepInsert.setInt(1, driverID);
+                prepInsert.setString(2, startLoc);
                 prepInsert.executeUpdate();
             }
 
