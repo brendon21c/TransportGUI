@@ -17,6 +17,10 @@ public class PickUpModel extends AbstractTableModel {
     ResultSet resSetPickUp;
 
 
+
+    /*
+        This makes sure that when called from the main it updates itself.
+         */
     public PickUpModel(ResultSet resDriver) {
 
         resSetPickUp = resDriver;
@@ -24,6 +28,9 @@ public class PickUpModel extends AbstractTableModel {
 
     }
 
+    /*
+    Starts the setup of counting rows and columns.
+     */
     public void setup() {
 
         rowcount();
@@ -39,6 +46,9 @@ public class PickUpModel extends AbstractTableModel {
         }
     }
 
+    /*
+    Updates the table when called
+     */
     public void UpdateRS (ResultSet newSet) {
 
         resSetPickUp = newSet;
@@ -73,7 +83,7 @@ public class PickUpModel extends AbstractTableModel {
     }
 
 
-    public boolean insertDriver(int driver, String location) {
+    public boolean insertOrder(int driver, String location) {
 
 
         try {
@@ -94,6 +104,8 @@ public class PickUpModel extends AbstractTableModel {
         }
     }
 
+
+    /*
     public boolean deleteDriver(int row) {
 
         try {
@@ -109,7 +121,7 @@ public class PickUpModel extends AbstractTableModel {
             e.printStackTrace();
             return false;
         }
-    }
+    } */
 
 
 

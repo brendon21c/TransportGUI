@@ -20,7 +20,7 @@ public class driverMain extends JFrame implements WindowListener {
     private JButton deleteDriverButton;
 
 
-    driverMain(final DriverModel TTM) {
+    driverMain(DriverModel TTM) {
 
         setContentPane(driverRoot);
         setLocation(300,300);
@@ -33,6 +33,7 @@ public class driverMain extends JFrame implements WindowListener {
         driverTable.setModel(TTM);
         driverTable.setGridColor(Color.BLACK);
         driverTable.getColumnModel().getColumn(0).setWidth(500);
+
 
 
         addDriverButton.addActionListener(new ActionListener() {

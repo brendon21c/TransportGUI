@@ -15,7 +15,9 @@ public class DriverModel extends AbstractTableModel {
 
     ResultSet resSetDriver;
     
-
+    /*
+    This makes sure that when called from the main it updates itself.
+     */
     public DriverModel(ResultSet resDriver) {
 
         resSetDriver = resDriver;
@@ -23,6 +25,9 @@ public class DriverModel extends AbstractTableModel {
 
     }
 
+    /*
+    Starts the setup of counting rows and columns.
+     */
     public void setup() {
 
         rowcount();
@@ -38,6 +43,9 @@ public class DriverModel extends AbstractTableModel {
         }
     }
 
+    /*
+    Updates the table when called.
+     */
     public void UpdateRS (ResultSet newSet) {
 
         resSetDriver = newSet;

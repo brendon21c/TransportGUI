@@ -128,7 +128,9 @@ public class transportManager {
                 System.exit(-1);
             }
 
-
+            /*
+            creating connections and setting up statements for each table.
+             */
             conn = DriverManager.getConnection(DB_CONNECTION_URL + DBName, USER, PASSWORD);
             statementDriver = conn.createStatement(resSetDriver.TYPE_SCROLL_INSENSITIVE, resSetDriver.CONCUR_UPDATABLE);
             statementPU = conn.createStatement(resSetPickUp.TYPE_SCROLL_INSENSITIVE, resSetPickUp.CONCUR_UPDATABLE);
@@ -197,7 +199,9 @@ public class transportManager {
 
     }
 
-
+    /*
+    This will check if the pick up table exists.
+     */
     private static boolean pickUpTableCheck() throws SQLException { // checks for pickup table
 
         String checkDriverTable = "SHOW TABLES LIKE '" + PickupTable + "'";
@@ -209,6 +213,9 @@ public class transportManager {
 
     }
 
+    /*
+    This will check if the delivery table exists.
+     */
     private static boolean delTableCheck() throws SQLException { // checks for delivery table
 
         String checkDriverTable = "SHOW TABLES LIKE '" + DeliveryTable + "'";
@@ -220,6 +227,9 @@ public class transportManager {
 
     }
 
+    /*
+    Closing all connections
+     */
     public static void close() {
 
         try {
