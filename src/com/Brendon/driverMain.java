@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-
+import java.sql.SQLException;
 
 
 public class driverMain extends JFrame implements WindowListener {
@@ -19,7 +19,8 @@ public class driverMain extends JFrame implements WindowListener {
     private JButton addDriverButton;
 
 
-    driverMain(final DriverModel TTM ) {
+
+    driverMain(final DriverModel TTM) {
 
         setContentPane(driverRoot);
         setLocation(300,300);
@@ -34,10 +35,57 @@ public class driverMain extends JFrame implements WindowListener {
         driverTable.getColumnModel().getColumn(0).setWidth(500);
 
 
+        addDriverButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                driverEntry entry = new driverEntry(TTM);
+
+
+            }
+        });
+
+        selectDriverButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int row = driverTable.getSelectedRow();
+                System.out.println(row);
+                int col = driverTable.getSelectedColumn();
+                System.out.println(col);
+
+
+            }
+        });
+
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                transportManager.close();
+                System.exit(0);
+            }
+        });
+
+
 
     }
 
+    public void insertDriver(int ID, String Loc)  {
 
+        try {
+
+
+            transportManager.prepInsert.setInt(1, ID);
+            transportManager.prepInsert.setString(2, Loc);
+
+        } catch (SQLException E) {
+
+            System.out.println("problems entering driver info");;
+            E.printStackTrace();
+        }
+
+    }
 
 
 

@@ -6,15 +6,14 @@ import java.awt.event.ActionListener;
 
 
 public class driverEntry extends JFrame {
-    private JTextField driverName;
+    private JTextField driverID;
     private JTextField location;
     private JButton updateButton;
     private JPanel driverEntryPanel;
 
-    private DriverModel DM;
 
 
-    driverEntry(final DriverModel DM) {
+    driverEntry(DriverModel TTM) {
 
         setContentPane(driverEntryPanel);
         setLocation(300, 300);
@@ -22,20 +21,23 @@ public class driverEntry extends JFrame {
         pack();
         setVisible(true);
 
-        /*updateButton.addActionListener(new ActionListener() {
+        updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                int driverNum = Integer.parseInt(driverName.getText());
-                String driverLoctaion = location.getText();
+                int id = Integer.parseInt(driverID.getText());
+                String loc = location.getText();
 
-                DM.insertDriver(driverNum,driverLoctaion);
+                TTM.insertDriver(id, loc);
+                driverEntry.this.dispose();
+
 
             }
         });
 
-    } */
+
+    }
 
 
     }
-}
+

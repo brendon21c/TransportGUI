@@ -29,10 +29,6 @@ public class transportManager {
     public static PreparedStatement prepInsert; // for driver
 
 
-    public LinkedList<Integer> Drivers = new LinkedList<Integer>();
-    public static int driverID = 1888833;
-    public static String startLoc = "3634 Cecilia Circle, Edina MN";
-
     private static DriverModel TransportTable;
 
 
@@ -142,8 +138,8 @@ public class transportManager {
                 prepInsert = conn.prepareStatement(prestate);
 
                 //TODO add the remaining drivers.
-                prepInsert.setInt(1, driverID);
-                prepInsert.setString(2, startLoc);
+                prepInsert.setInt(1, 1888833);
+                prepInsert.setString(2, "3634 Cecilia Circle, Edina MN");
                 prepInsert.executeUpdate();
             }
 
@@ -211,4 +207,37 @@ public class transportManager {
 
     }
 
+    public static void close() {
+
+        try {
+
+            if (resSetDriver != null || resSetPickUp != null || resSetDel != null) {
+
+                resSetDriver.close();
+                resSetPickUp.close();
+                resSetDel.close();
+            }
+
+            if (statementDriver != null || statementPU != null || statementDel != null) {
+
+                statementDriver.close();
+                statementPU.close();
+                statementDel.close();
+            }
+
+            if (conn != null) {
+
+                conn.close();
+            }
+
+
+        } catch (SQLException SQLE) {
+
+            System.out.println("problems closing connections");
+            SQLE.printStackTrace();
+        }
+    }
+
 }
+
+

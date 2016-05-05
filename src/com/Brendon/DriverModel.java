@@ -9,6 +9,7 @@ public class DriverModel extends AbstractTableModel {
 
     private int rowCountDriver;
     private int colCountDriver;
+
     ResultSet resSetDriver;
     
 
@@ -67,14 +68,15 @@ public class DriverModel extends AbstractTableModel {
 
     }
 
+
     public boolean insertDriver(int driver, String location) {
 
 
         try {
 
             resSetDriver.moveToInsertRow();
-            resSetDriver.updateInt(transportManager.driverID, driver);
-            resSetDriver.updateString(transportManager.startLoc, location);
+            resSetDriver.updateInt(1, driver);
+            resSetDriver.updateString(2, location);
             resSetDriver.insertRow();
             resSetDriver.moveToCurrentRow();
             fireTableDataChanged();
