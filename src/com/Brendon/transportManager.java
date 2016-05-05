@@ -30,6 +30,9 @@ public class transportManager {
 
 
     private static DriverModel TransportTable;
+    private static PickUpModel PU_Table;
+
+    public static int DriverID_key;
 
 
     public static void main(String[] args) {
@@ -83,6 +86,16 @@ public class transportManager {
 
             String loadPU = "SELECT * FROM " + PickupTable;
             resSetPickUp = statementPU.executeQuery(loadPU);
+
+            if (PU_Table == null) {
+
+                PU_Table = new PickUpModel(resSetPickUp);
+
+            } else {
+
+                PU_Table.UpdateRS(resSetPickUp);
+            }
+
 
             String loadDEL = "SELECT * FROM " + DeliveryTable;
             resSetDel = statementDel.executeQuery(loadDEL);

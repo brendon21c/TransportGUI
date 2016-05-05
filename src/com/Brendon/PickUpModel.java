@@ -4,21 +4,22 @@ import javax.swing.table.AbstractTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+
 /*
-This is the data manager for the driver table.
+This is the manager for the Pickup Table.
  */
+public class PickUpModel extends AbstractTableModel {
 
-public class DriverModel extends AbstractTableModel {
+    private int rowCountPU;
+    private int colCountPU;
 
-    private int rowCountDriver;
-    private int colCountDriver;
+    ResultSet resSetPickUp;
 
-    ResultSet resSetDriver;
-    
 
-    public DriverModel(ResultSet resDriver) {
+    public PickUpModel(ResultSet resDriver) {
 
-        resSetDriver = resDriver;
+        resSetPickUp = resDriver;
         setup();
 
     }
@@ -29,7 +30,7 @@ public class DriverModel extends AbstractTableModel {
 
         try {
 
-           colCountDriver = resSetDriver.getMetaData().getColumnCount();
+            colCountPU = resSetPickUp.getMetaData().getColumnCount();
 
         } catch (SQLException SQLE) {
 
@@ -40,7 +41,7 @@ public class DriverModel extends AbstractTableModel {
 
     public void UpdateRS (ResultSet newSet) {
 
-        resSetDriver = newSet;
+        resSetPickUp = newSet;
         setup();
 
     }
@@ -50,18 +51,18 @@ public class DriverModel extends AbstractTableModel {
      */
     public void rowcount() {
 
-        rowCountDriver = 0;
+        rowCountPU = 0;
 
         try {
 
-            resSetDriver.beforeFirst();
+            resSetPickUp.beforeFirst();
 
-            while (resSetDriver.next()) {
+            while (resSetPickUp.next()) {
 
-                rowCountDriver++;
+                rowCountPU++;
             }
 
-            resSetDriver.beforeFirst();
+            resSetPickUp.beforeFirst();
 
         } catch (SQLException e) {
 
@@ -77,11 +78,11 @@ public class DriverModel extends AbstractTableModel {
 
         try {
 
-            resSetDriver.moveToInsertRow();
-            resSetDriver.updateInt(1, driver);
-            resSetDriver.updateString(2, location);
-            resSetDriver.insertRow();
-            resSetDriver.moveToCurrentRow();
+            resSetPickUp.moveToInsertRow();
+            resSetPickUp.updateInt(1, driver);
+            resSetPickUp.updateString(2, location);
+            resSetPickUp.insertRow();
+            resSetPickUp.moveToCurrentRow();
             fireTableDataChanged();
             return true;
 
@@ -97,8 +98,8 @@ public class DriverModel extends AbstractTableModel {
 
         try {
 
-            resSetDriver.absolute(row + 1);
-            resSetDriver.deleteRow();
+            resSetPickUp.absolute(row + 1);
+            resSetPickUp.deleteRow();
             fireTableDataChanged();
             return true;
 
@@ -117,12 +118,12 @@ public class DriverModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         rowcount();
-        return rowCountDriver;
+        return rowCountPU;
     }
 
     @Override
     public int getColumnCount() {
-        return colCountDriver;
+        return colCountPU;
     }
 
 
@@ -131,9 +132,9 @@ public class DriverModel extends AbstractTableModel {
 
         try {
 
-            resSetDriver.absolute(rowIndex + 1); // + 1 because the table begins at 0.
+            resSetPickUp.absolute(rowIndex + 1); // + 1 because the table begins at 0.
 
-            Object item = resSetDriver.getObject(columnIndex + 1);
+            Object item = resSetPickUp.getObject(columnIndex + 1);
 
             return item.toString();
 

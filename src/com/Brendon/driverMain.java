@@ -17,7 +17,7 @@ public class driverMain extends JFrame implements WindowListener {
     private JButton selectDriverButton;
     private JButton quitButton;
     private JButton addDriverButton;
-
+    private JButton deleteDriverButton;
 
 
     driverMain(final DriverModel TTM) {
@@ -50,9 +50,7 @@ public class driverMain extends JFrame implements WindowListener {
             public void actionPerformed(ActionEvent e) {
 
                 int row = driverTable.getSelectedRow();
-                System.out.println(row);
-                int col = driverTable.getSelectedColumn();
-                System.out.println(col);
+                transportManager.DriverID_key = Integer.parseInt(TTM.getValueAt(row, 0).toString());
 
 
             }
@@ -67,27 +65,18 @@ public class driverMain extends JFrame implements WindowListener {
             }
         });
 
+        deleteDriverButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int driver = driverTable.getSelectedRow();
+                boolean delete = TTM.deleteDriver(driver);
 
 
-    }
-
-    public void insertDriver(int ID, String Loc)  {
-
-        try {
-
-
-            transportManager.prepInsert.setInt(1, ID);
-            transportManager.prepInsert.setString(2, Loc);
-
-        } catch (SQLException E) {
-
-            System.out.println("problems entering driver info");;
-            E.printStackTrace();
-        }
+            }
+        });
 
     }
-
-
 
 
 
