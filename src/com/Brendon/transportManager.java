@@ -7,8 +7,8 @@ import java.util.LinkedList;
 public class transportManager {
 
     static final String DB_CONNECTION_URL = "jdbc:mysql://localhost:3306/";
-    static final String USER = "brendon";
-    static final String PASSWORD = "password";
+    static final String USER = "root";
+    static final String PASSWORD = "cake mix";
 
     public static String DBName = "Driver_Order_Records";
     public static String DriverTable = "DriverTable";
@@ -261,6 +261,8 @@ public class transportManager {
         }
     }
 
+    public static void showDriverInfo(int driverID) {
+    }
 }
 
 
