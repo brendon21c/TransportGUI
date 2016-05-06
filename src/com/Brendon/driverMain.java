@@ -51,8 +51,8 @@ public class driverMain extends JFrame implements WindowListener {
             public void actionPerformed(ActionEvent e) {
 
                 int row = driverTable.getSelectedRow();
-                transportManager.DriverID_key = Integer.parseInt(TTM.getValueAt(row, 0).toString());
-
+                int driverID = Integer.parseInt(TTM.getValueAt(row, 0).toString());
+                transportManager.showDriverInfo(driverID);
 
             }
         });
