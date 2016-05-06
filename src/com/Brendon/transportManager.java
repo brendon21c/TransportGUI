@@ -4,10 +4,10 @@ package com.Brendon;
 import java.sql.*;
 import java.util.LinkedList;
 
-public class transportManager {
+public class TransportManager {
 
     static final String DB_CONNECTION_URL = "jdbc:mysql://localhost:3306/";
-    static final String USER = "brendon";
+    static final String USER = "root";
     static final String PASSWORD = "password";
 
     public static String DBName = "Driver_Order_Records";
@@ -29,7 +29,7 @@ public class transportManager {
     public static PreparedStatement prepInsert; // for driver
 
 
-    private static DriverModel TransportTable;
+    private static DriverModel transportTable;
     private static PickUpModel PU_Table;
 
     public static int DriverID_key;
@@ -49,7 +49,7 @@ public class transportManager {
             System.exit(-1);
         }
 
-        driverMain driver = new driverMain(TransportTable);
+        driverMain driver = new driverMain(transportTable);     //Launch list of driver GUI
     }
 
     /*
@@ -73,28 +73,28 @@ public class transportManager {
             String loadDriver = "SELECT * FROM " + DriverTable;
             resSetDriver = statementDriver.executeQuery(loadDriver);
 
-            if (TransportTable == null) {
+            if (transportTable == null) {
 
-                TransportTable = new DriverModel(resSetDriver);
+                transportTable = new DriverModel(resSetDriver);
 
             } else {
 
-                TransportTable.UpdateRS(resSetDriver);
+                transportTable.UpdateRS(resSetDriver);
             }
 
 
 
-            String loadPU = "SELECT * FROM " + PickupTable;
-            resSetPickUp = statementPU.executeQuery(loadPU);
-
-            if (PU_Table == null) {
-
-                PU_Table = new PickUpModel(resSetPickUp);
-
-            } else {
-
-                PU_Table.UpdateRS(resSetPickUp);
-            }
+//            String loadPU = "SELECT * FROM " + PickupTable;
+//            resSetPickUp = statementPU.executeQuery(loadPU);
+//
+//            if (PU_Table == null) {
+//
+//                PU_Table = new PickUpModel(resSetPickUp);
+//
+//            } else {
+//
+//                PU_Table.UpdateRS(resSetPickUp);
+//            }
 
 
             String loadDEL = "SELECT * FROM " + DeliveryTable;
@@ -261,8 +261,36 @@ public class transportManager {
         }
     }
 
-    public static void showDriverInfo(int driverID) {
+    public static void showDriverInfo(int driverID, Date deliveryDate) {
 
+        // select count(deliveryDate) from pickuptable where deliveryDate = 1/1/2015;
+        //
+        //
+
+        try {
+            String loadPU = "SELECT * FROM " + PickupTable + " where driverID = ? and deliveryDate = ?";
+            PreparedStatement psSelectDriver = conn.prepareStatement(loadPU);
+
+            psSelectDriver.setInt(1, driverID);
+            psSelectDriver.setDate(2, deliveryDate);
+
+            resSetPickUp = statementPU.executeQuery(loadPU);
+
+            if (PU_Table == null) {
+
+                PU_Table = new PickUpModel(resSetPickUp);
+
+            } else {
+
+                PU_Table.UpdateRS(resSetPickUp);
+                //run sql query/queries
+                DriverDetails driverDetailGUI = new DriverDetails(PU_Table);
+                //launch new GUI window
+
+            }
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
 
     }
 }
