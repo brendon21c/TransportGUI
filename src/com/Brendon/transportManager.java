@@ -7,8 +7,8 @@ import java.util.LinkedList;
 public class transportManager {
 
     static final String DB_CONNECTION_URL = "jdbc:mysql://localhost:3306/";
-    static final String USER = "root";
-    static final String PASSWORD = "cake mix";
+    static final String USER = "brendon";
+    static final String PASSWORD = "password";
 
     public static String DBName = "Driver_Order_Records";
     public static String DriverTable = "DriverTable";
@@ -161,7 +161,7 @@ public class transportManager {
             if (!pickUpTableCheck()) {
 
                 String newTable = "create table " + PickupTable + " (OrderNum int, Address varchar(60), ContactName varchar(60), " +
-                        "Pieces int, TotalWeight double, DriverID int, PRIMARY KEY(OrderNum))";
+                        "Pieces int, TotalWeight double, DriverID int, OrderDate VARCHAR(20), PRIMARY KEY(OrderNum))";
                 System.out.println(newTable);
                 statementPU.executeUpdate(newTable);
             }
@@ -169,7 +169,7 @@ public class transportManager {
             if (!delTableCheck()) {
 
                 String newTable = "CREATE TABLE " + DeliveryTable + " (OrderNum int, Address varchar(60), ContactName varchar(60), " +
-                        "Pieces INT , TotalWeight DOUBLE, DriverID int, PRIMARY KEY(OrderNum))";
+                        "Pieces INT , TotalWeight DOUBLE, DriverID int, OrderDate VARCHAR(20), PRIMARY KEY(OrderNum))";
                 System.out.println(newTable);
                 statementDel.executeUpdate(newTable);
 
@@ -262,6 +262,8 @@ public class transportManager {
     }
 
     public static void showDriverInfo(int driverID) {
+
+
     }
 }
 

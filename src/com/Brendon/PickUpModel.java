@@ -21,9 +21,9 @@ public class PickUpModel extends AbstractTableModel {
     /*
         This makes sure that when called from the main it updates itself.
          */
-    public PickUpModel(ResultSet resDriver) {
+    public PickUpModel(ResultSet resPickUp) {
 
-        resSetPickUp = resDriver;
+        resSetPickUp = resPickUp;
         setup();
 
     }
@@ -83,14 +83,20 @@ public class PickUpModel extends AbstractTableModel {
     }
 
 
-    public boolean insertOrder(int driver, String location) {
+    public boolean insertOrder(int OrderNum, String Address, String ContactName, int Pieces,
+                               Double TotalWeight, int DriverID, String Date) {
 
 
         try {
 
             resSetPickUp.moveToInsertRow();
-            resSetPickUp.updateInt(1, driver);
-            resSetPickUp.updateString(2, location);
+            resSetPickUp.updateInt(1, OrderNum);
+            resSetPickUp.updateString(2,Address);
+            resSetPickUp.updateString(3, ContactName);
+            resSetPickUp.updateInt(4, Pieces);
+            resSetPickUp.updateDouble(5, TotalWeight);
+            resSetPickUp.updateInt(6, DriverID);
+            resSetPickUp.updateString(7, Date);
             resSetPickUp.insertRow();
             resSetPickUp.moveToCurrentRow();
             fireTableDataChanged();
@@ -98,7 +104,7 @@ public class PickUpModel extends AbstractTableModel {
 
         } catch (SQLException SQLE) {
 
-            System.out.println("troubling adding information to driver table");
+            System.out.println("troubling adding information to pickup table");
             SQLE.printStackTrace();
             return false;
         }
