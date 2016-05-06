@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.sql.SQLException;
 
 
 public class driverMain extends JFrame implements WindowListener {
@@ -52,7 +51,7 @@ public class driverMain extends JFrame implements WindowListener {
 
                 int row = driverTable.getSelectedRow();
                 int driverID = Integer.parseInt(TTM.getValueAt(row, 0).toString());
-                transportManager.showDriverInfo(driverID);
+                TransportManager.showDriverInfo(driverID, null);  //todo
 
             }
         });
@@ -61,7 +60,7 @@ public class driverMain extends JFrame implements WindowListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                transportManager.close();
+                TransportManager.close();
                 System.exit(0);
             }
         });

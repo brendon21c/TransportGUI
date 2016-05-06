@@ -38,7 +38,7 @@ public class DriverModel extends AbstractTableModel {
 
         } catch (SQLException SQLE) {
 
-            System.out.println("error");
+            //System.out.println("error");
             SQLE.printStackTrace();
         }
     }
