@@ -2,7 +2,8 @@ package com.Brendon;
 
 
 import java.sql.*;
-import java.util.LinkedList;
+import java.util.*;
+import java.util.Date;
 
 public class transportManager {
 
@@ -27,12 +28,16 @@ public class transportManager {
     public static ResultSet resSetDel = null;// dropoff orders resultset
 
     public static PreparedStatement prepInsert; // for driver
+    public static PreparedStatement prepPU; // for Pick Up table
+    public static PreparedStatement prepDel; // for delivery table
 
 
     private static DriverModel TransportTable;
     private static PickUpModel PU_Table;
 
     public static int DriverID_key;
+    public static int OrderNum = 100000;
+
 
 
     public static void main(String[] args) {
@@ -83,7 +88,7 @@ public class transportManager {
             }
 
 
-
+            /*
             String loadPU = "SELECT * FROM " + PickupTable;
             resSetPickUp = statementPU.executeQuery(loadPU);
 
@@ -94,7 +99,7 @@ public class transportManager {
             } else {
 
                 PU_Table.UpdateRS(resSetPickUp);
-            }
+            } */
 
 
             String loadDEL = "SELECT * FROM " + DeliveryTable;
@@ -169,7 +174,7 @@ public class transportManager {
             if (!delTableCheck()) {
 
                 String newTable = "CREATE TABLE " + DeliveryTable + " (OrderNum int, Address varchar(60), ContactName varchar(60), " +
-                        "Pieces INT , TotalWeight DOUBLE, DriverID int, OrderDate VARCHAR(20), PRIMARY KEY(OrderNum))";
+                        "Pieces INT , TotalWeight DOUBLE, DriverID int, OrderDate VARCHAR(20) , PRIMARY KEY(OrderNum))";
                 System.out.println(newTable);
                 statementDel.executeUpdate(newTable);
 
@@ -261,10 +266,50 @@ public class transportManager {
         }
     }
 
-    public static void showDriverInfo(int driverID) {
+    public static void showDriverInfo(int driverID, Date reportDate) {
+
+        try {
+
+
+            String loadPU = "SELECT * FROM " + PickupTable;
+            resSetPickUp = statementPU.executeQuery(loadPU);
+
+            if (PU_Table == null) {
+
+                PU_Table = new PickUpModel(resSetPickUp);
+
+            } else {
+
+                PU_Table.UpdateRS(resSetPickUp);
+            }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
 
 
     }
+
+    public static void insertPickUp(int orderNum, String address, String contact, int boxes, double weight,
+     int driverID, String date) {
+
+
+        String insertPU = "insert into "
+
+    }
+
+    public static void insertDel(int orderNum, String address, String contact, int boxes, double weight,
+                                 int driverID, String date) {
+
+
+
+
+
+    }
+
+
 }
 
 

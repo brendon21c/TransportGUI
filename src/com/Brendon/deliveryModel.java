@@ -9,21 +9,21 @@ import java.sql.SQLException;
 /*
 This is the manager for the Pickup Table.
  */
-public class PickUpModel extends AbstractTableModel {
+public class deliveryModel extends AbstractTableModel {
 
     private int rowCountPU;
     private int colCountPU;
 
-    ResultSet resSetPickUp;
+    ResultSet resSetDel;
 
 
 
     /*
         This makes sure that when called from the main it updates itself.
          */
-    public PickUpModel(ResultSet resPickUp) {
+    public deliveryModel(ResultSet resDel) {
 
-        resSetPickUp = resPickUp;
+        resSetDel = resDel;
         setup();
 
     }
@@ -37,7 +37,7 @@ public class PickUpModel extends AbstractTableModel {
 
         try {
 
-            colCountPU = resSetPickUp.getMetaData().getColumnCount();
+            colCountPU = resSetDel.getMetaData().getColumnCount();
 
         } catch (SQLException SQLE) {
 
@@ -51,7 +51,7 @@ public class PickUpModel extends AbstractTableModel {
      */
     public void UpdateRS (ResultSet newSet) {
 
-        resSetPickUp = newSet;
+        resSetDel = newSet;
         setup();
 
     }
@@ -65,14 +65,14 @@ public class PickUpModel extends AbstractTableModel {
 
         try {
 
-            resSetPickUp.beforeFirst();
+            resSetDel.beforeFirst();
 
-            while (resSetPickUp.next()) {
+            while (resSetDel.next()) {
 
                 rowCountPU++;
             }
 
-            resSetPickUp.beforeFirst();
+            resSetDel.beforeFirst();
 
         } catch (SQLException e) {
 
@@ -89,16 +89,16 @@ public class PickUpModel extends AbstractTableModel {
 
         try {
 
-            resSetPickUp.moveToInsertRow();
-            resSetPickUp.updateInt(1, OrderNum);
-            resSetPickUp.updateString(2,Address);
-            resSetPickUp.updateString(3, ContactName);
-            resSetPickUp.updateInt(4, Pieces);
-            resSetPickUp.updateDouble(5, TotalWeight);
-            resSetPickUp.updateInt(6, DriverID);
-            resSetPickUp.updateString(7, Date);
-            resSetPickUp.insertRow();
-            resSetPickUp.moveToCurrentRow();
+            resSetDel.moveToInsertRow();
+            resSetDel.updateInt(1, OrderNum);
+            resSetDel.updateString(2,Address);
+            resSetDel.updateString(3, ContactName);
+            resSetDel.updateInt(4, Pieces);
+            resSetDel.updateDouble(5, TotalWeight);
+            resSetDel.updateInt(6, DriverID);
+            resSetDel.updateString(7, Date);
+            resSetDel.insertRow();
+            resSetDel.moveToCurrentRow();
             fireTableDataChanged();
             return true;
 
@@ -130,9 +130,9 @@ public class PickUpModel extends AbstractTableModel {
 
         try {
 
-            resSetPickUp.absolute(rowIndex + 1); // + 1 because the table begins at 0.
+            resSetDel.absolute(rowIndex + 1); // + 1 because the table begins at 0.
 
-            Object item = resSetPickUp.getObject(columnIndex + 1);
+            Object item = resSetDel.getObject(columnIndex + 1);
 
             return item.toString();
 

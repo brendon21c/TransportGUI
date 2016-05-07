@@ -32,6 +32,7 @@ public class DriverDetails extends JFrame implements WindowListener {
         table1.getColumnModel().getColumn(0).setWidth(500);
 
 
+
     }
 
 

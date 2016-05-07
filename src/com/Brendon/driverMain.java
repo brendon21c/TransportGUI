@@ -7,6 +7,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class driverMain extends JFrame implements WindowListener {
@@ -18,6 +22,8 @@ public class driverMain extends JFrame implements WindowListener {
     private JButton quitButton;
     private JButton addDriverButton;
     private JButton deleteDriverButton;
+    private JSpinner dateSpinner;
+    private JButton addJobButton;
 
 
     driverMain(DriverModel TTM) {
@@ -29,6 +35,11 @@ public class driverMain extends JFrame implements WindowListener {
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowListener(this);
+
+        Date now = new Date();
+        SpinnerDateModel sdm = new SpinnerDateModel(now, null, now, Calendar.DAY_OF_WEEK);
+        DateFormat df = new SimpleDateFormat("M/DD/YYYY");
+
 
         driverTable.setModel(TTM);
         driverTable.setGridColor(Color.BLACK);
@@ -50,10 +61,11 @@ public class driverMain extends JFrame implements WindowListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                /*
                 int row = driverTable.getSelectedRow();
                 int driverID = Integer.parseInt(TTM.getValueAt(row, 0).toString());
                 transportManager.showDriverInfo(driverID);
-
+                */
             }
         });
 
@@ -77,7 +89,18 @@ public class driverMain extends JFrame implements WindowListener {
             }
         });
 
+        addJobButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                jobEntry newJob = new jobEntry();
+
+            }
+        });
+
     }
+
+
 
 
 
