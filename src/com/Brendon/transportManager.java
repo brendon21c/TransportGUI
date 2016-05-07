@@ -36,7 +36,7 @@ public class transportManager {
     private static PickUpModel PU_Table;
 
     public static int DriverID_key;
-    public static int OrderNum = 100000;
+    public static int OrderNum = 100;
 
 
 
@@ -157,7 +157,6 @@ public class transportManager {
                 String prestate = "insert into " + DriverTable + " values ( ? , ? )";
                 prepInsert = conn.prepareStatement(prestate);
 
-                //TODO add the remaining drivers.
                 prepInsert.setInt(1, 1888833);
                 prepInsert.setString(2, "3634 Cecilia Circle, Edina MN");
                 prepInsert.executeUpdate();
@@ -295,13 +294,50 @@ public class transportManager {
     public static void insertPickUp(int orderNum, String address, String contact, int boxes, double weight,
      int driverID, String date) {
 
+        try {
 
-        String insertPU = "insert into "
+            String insertPU = "insert into " + PickupTable + " values ( ? , ? , ? , ? , ? , ? , ? )";
+            prepPU = conn.prepareStatement(insertPU);
+
+            prepPU.setInt(1, orderNum);
+            prepPU.setString(2, address);
+            prepPU.setString(3, contact);
+            prepPU.setInt(4, boxes);
+            prepPU.setDouble(5, weight);
+            prepPU.setInt(6, driverID);
+            prepPU.setString(7, date);
+            prepPU.executeUpdate();
+
+
+        } catch (SQLException sqle) {
+
+            sqle.printStackTrace();
+        }
 
     }
 
     public static void insertDel(int orderNum, String address, String contact, int boxes, double weight,
                                  int driverID, String date) {
+
+        try {
+
+            String insertPU = "insert into " + DeliveryTable + " values ( ? , ? , ? , ? , ? , ? , ? )";
+            prepDel = conn.prepareStatement(insertPU);
+
+            prepDel.setInt(1, orderNum);
+            prepDel.setString(2, address);
+            prepDel.setString(3, contact);
+            prepDel.setInt(4, boxes);
+            prepDel.setDouble(5, weight);
+            prepDel.setInt(6, driverID);
+            prepDel.setString(7, date);
+            prepDel.executeUpdate();
+
+
+        } catch (SQLException sqle) {
+
+            sqle.printStackTrace();
+        }
 
 
 
