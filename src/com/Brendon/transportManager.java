@@ -247,56 +247,42 @@ public class transportManager {
 
     }
 
-    /*
-    Closing all connections
-     */
-    public static void close() {
+
+    public static void showDriverInfo(int driverID, String reportDate) {
 
         try {
 
-            if (resSetDriver != null || resSetPickUp != null || resSetDel != null) {
+            // These Queries are not working.
+            String loadPU = "SELECT * FROM " + PickupTable + " WHERE DriverID = ? AND  OrderDate = ? ";
+            PreparedStatement psPickUp = conn.prepareStatement(loadPU);
+            psPickUp.setInt(1, driverID);
+            psPickUp.setString(2, reportDate);
 
-                resSetDriver.close();
-                resSetPickUp.close();
-                resSetDel.close();
-            }
-
-            if (statementDriver != null || statementPU != null || statementDel != null) {
-
-                statementDriver.close();
-                statementPU.close();
-                statementDel.close();
-            }
-
-            if (conn != null) {
-
-                conn.close();
-            }
-
-
-        } catch (SQLException SQLE) {
-
-            System.out.println("problems closing connections");
-            SQLE.printStackTrace();
-        }
-    }
-
-    public static void showDriverInfo(int driverID, Date reportDate) {
-
-        try {
-
-
-            String loadPU = "SELECT * FROM " + PickupTable;
             resSetPickUp = statementPU.executeQuery(loadPU);
 
-            if (PU_Table == null) {
 
+
+            String loadDel = "SELECT * FROM " + DeliveryTable + " WHERE DriverID = ? AND OrderDate = ?";
+            PreparedStatement psDelivery = conn.prepareStatement(loadDel);
+            psDelivery.setInt(1, driverID);
+            psDelivery.setString(2, reportDate);
+
+            resSetDel = statementDel.executeQuery(loadDel);
+
+
+            if (delModel == null || PU_Table == null) {
+
+                delModel = new deliveryModel(resSetDel);
                 PU_Table = new PickUpModel(resSetPickUp);
 
             } else {
 
                 PU_Table.UpdateRS(resSetPickUp);
+                delModel.UpdateRS(resSetDel);
+
+                driverDetails DD = new driverDetails(PU_Table); // Another problem here is I don;t know how to work with both result sets in the next window.
             }
+
 
         } catch (SQLException e) {
 
@@ -382,10 +368,40 @@ public class transportManager {
             sqle.printStackTrace();
         }
 
+    }
+
+    /*
+  Closing all connections
+   */
+    public static void close() {
+
+        try {
+
+            if (resSetDriver != null || resSetPickUp != null || resSetDel != null) {
+
+                resSetDriver.close();
+                resSetPickUp.close();
+                resSetDel.close();
+            }
+
+            if (statementDriver != null || statementPU != null || statementDel != null) {
+
+                statementDriver.close();
+                statementPU.close();
+                statementDel.close();
+            }
+
+            if (conn != null) {
+
+                conn.close();
+            }
 
 
+        } catch (SQLException SQLE) {
 
-
+            System.out.println("problems closing connections");
+            SQLE.printStackTrace();
+        }
     }
 
 

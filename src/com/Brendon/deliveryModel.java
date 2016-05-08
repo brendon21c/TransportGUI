@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 
 /*
-This is the manager for the Pickup Table.
+This is the manager for the delivery table.
  */
 public class deliveryModel extends AbstractTableModel {
 

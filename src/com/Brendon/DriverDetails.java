@@ -6,7 +6,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 
-public class DriverDetails extends JFrame implements WindowListener {
+public class driverDetails extends JFrame implements WindowListener {
     private JSpinner spinner1;
     private JButton getStuffForDateButton;
     private JTable table1;
@@ -14,10 +14,9 @@ public class DriverDetails extends JFrame implements WindowListener {
     private JTextArea pickupTextArea;
     private JTextArea deliveryTextArea;
     private JPanel DriverDetailRoot;
-    private JButton newOrderButton;
 
 
-    DriverDetails(PickUpModel PUM){
+    driverDetails(PickUpModel PUM){
 
         setContentPane(DriverDetailRoot);
         setLocation(300,300);
@@ -34,8 +33,6 @@ public class DriverDetails extends JFrame implements WindowListener {
 
 
     }
-
-
 
 
 

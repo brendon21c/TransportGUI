@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class driverMain extends JFrame implements WindowListener {
@@ -36,14 +37,16 @@ public class driverMain extends JFrame implements WindowListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowListener(this);
 
-        Date now = new Date();
-        SpinnerDateModel sdm = new SpinnerDateModel(now, null, now, Calendar.DAY_OF_WEEK);
-        DateFormat df = new SimpleDateFormat("M/DD/YYYY");
-
-
         driverTable.setModel(TTM);
         driverTable.setGridColor(Color.BLACK);
         driverTable.getColumnModel().getColumn(0).setWidth(500);
+
+        // Having problems working with table.
+        /*
+        Date date = new Date();
+        SpinnerDateModel model = new SpinnerDateModel(date, null,null, Calendar.DAY_OF_MONTH);
+        dateSpinner.setModel(model);
+        */
 
 
 
@@ -61,11 +64,11 @@ public class driverMain extends JFrame implements WindowListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                /*
+
                 int row = driverTable.getSelectedRow();
                 int driverID = Integer.parseInt(TTM.getValueAt(row, 0).toString());
-                transportManager.showDriverInfo(driverID);
-                */
+                transportManager.showDriverInfo(driverID, "4/21/2016");
+
             }
         });
 
