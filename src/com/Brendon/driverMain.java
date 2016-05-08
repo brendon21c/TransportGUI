@@ -93,7 +93,7 @@ public class driverMain extends JFrame implements WindowListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                jobEntry newJob = new jobEntry();
+                jobEntry newJob = new jobEntry(driverMain.this);
 
             }
         });

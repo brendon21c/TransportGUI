@@ -2,7 +2,6 @@ package com.Brendon;
 
 
 import java.sql.*;
-import java.util.*;
 import java.util.Date;
 
 public class transportManager {
@@ -34,9 +33,10 @@ public class transportManager {
 
     private static DriverModel TransportTable;
     private static PickUpModel PU_Table;
+    private static deliveryModel delModel;
 
     public static int DriverID_key;
-    public static int OrderNum = 100;
+    public static int orderNum;
 
 
 
@@ -88,7 +88,7 @@ public class transportManager {
             }
 
 
-            /*
+
             String loadPU = "SELECT * FROM " + PickupTable;
             resSetPickUp = statementPU.executeQuery(loadPU);
 
@@ -99,7 +99,7 @@ public class transportManager {
             } else {
 
                 PU_Table.UpdateRS(resSetPickUp);
-            } */
+            }
 
 
             String loadDEL = "SELECT * FROM " + DeliveryTable;
@@ -178,6 +178,22 @@ public class transportManager {
                 statementDel.executeUpdate(newTable);
 
             }
+
+            String orderNumtemp = "select max(OrderNum) from " + PickupTable;
+            statementPU.execute(orderNumtemp);
+            ResultSet test = statementPU.getResultSet();
+
+            if (test.next()) {
+
+                orderNum = test.getInt(1);
+            }
+
+            if (orderNum == 0) {
+
+                orderNum = 100;
+
+            }
+
 
             return true;
 
@@ -291,6 +307,9 @@ public class transportManager {
 
     }
 
+    /*
+   Inserts information into the pickup table, called from jobEntry.
+    */
     public static void insertPickUp(int orderNum, String address, String contact, int boxes, double weight,
      int driverID, String date) {
 
@@ -309,6 +328,16 @@ public class transportManager {
             prepPU.executeUpdate();
 
 
+            if (PU_Table == null) {
+
+                PU_Table = new PickUpModel(resSetPickUp);
+
+            } else {
+
+                PU_Table.UpdateRS(resSetPickUp);
+            }
+
+
         } catch (SQLException sqle) {
 
             sqle.printStackTrace();
@@ -316,13 +345,16 @@ public class transportManager {
 
     }
 
+    /*
+    Inserts information into the delivery table, called from jobEntry.
+     */
     public static void insertDel(int orderNum, String address, String contact, int boxes, double weight,
                                  int driverID, String date) {
 
         try {
 
-            String insertPU = "insert into " + DeliveryTable + " values ( ? , ? , ? , ? , ? , ? , ? )";
-            prepDel = conn.prepareStatement(insertPU);
+            String insertDel = "insert into " + DeliveryTable + " values ( ? , ? , ? , ? , ? , ? , ? )";
+            prepDel = conn.prepareStatement(insertDel);
 
             prepDel.setInt(1, orderNum);
             prepDel.setString(2, address);
@@ -332,6 +364,17 @@ public class transportManager {
             prepDel.setInt(6, driverID);
             prepDel.setString(7, date);
             prepDel.executeUpdate();
+
+
+            if (delModel == null) {
+
+                delModel = new deliveryModel(resSetDel);
+
+            } else {
+
+                delModel.UpdateRS(resSetDel);
+            }
+
 
 
         } catch (SQLException sqle) {
