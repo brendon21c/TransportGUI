@@ -20,6 +20,7 @@ public class driverEntry extends JFrame {
         setSize(500, 500);
         pack();
         setVisible(true);
+        System.out.println(driverMain.dateEntry);
 
         updateButton.addActionListener(new ActionListener() {
             @Override

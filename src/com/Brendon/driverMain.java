@@ -23,8 +23,11 @@ public class driverMain extends JFrame implements WindowListener {
     private JButton quitButton;
     private JButton addDriverButton;
     private JButton deleteDriverButton;
-    private JSpinner dateSpinner;
     private JButton addJobButton;
+    private JButton selectDateButton;
+    private JTextField dateEntryField;
+
+    public static String dateEntry;
 
 
     driverMain(DriverModel TTM) {
@@ -41,14 +44,27 @@ public class driverMain extends JFrame implements WindowListener {
         driverTable.setGridColor(Color.BLACK);
         driverTable.getColumnModel().getColumn(0).setWidth(500);
 
-        // Having problems working with table.
+        // This whole section seems to cause problems when trying to load the table, so I'm going to use strings for the date
         /*
-        Date date = new Date();
-        SpinnerDateModel model = new SpinnerDateModel(date, null,null, Calendar.DAY_OF_MONTH);
-        dateSpinner.setModel(model);
+        Calendar earlyDate = Calendar.getInstance();
+        earlyDate.set(2015,Calendar.JANUARY,1);
+        System.out.println(earlyDate.getTime());
+
+        Calendar lastdate = Calendar.getInstance();
+        lastdate.set(2016, Calendar.DECEMBER,31);
+        System.out.println(lastdate.getTime());
+
+        dateSpinner.setModel(new SpinnerDateModel(lastdate.getTime(),earlyDate.getTime(),lastdate.getTime(),Calendar.DAY_OF_MONTH));
         */
 
+        selectDateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+                dateEntry = dateEntryField.getText();
+
+            }
+        });
 
         addDriverButton.addActionListener(new ActionListener() {
             @Override
@@ -65,9 +81,11 @@ public class driverMain extends JFrame implements WindowListener {
             public void actionPerformed(ActionEvent e) {
 
 
+
+
                 int row = driverTable.getSelectedRow();
                 int driverID = Integer.parseInt(TTM.getValueAt(row, 0).toString());
-                transportManager.showDriverInfo(driverID, "4/21/2016");
+                transportManager.showDriverInfo(driverID, dateEntry);
 
             }
         });

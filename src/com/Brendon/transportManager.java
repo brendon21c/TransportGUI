@@ -165,7 +165,7 @@ public class transportManager {
             if (!pickUpTableCheck()) {
 
                 String newTable = "create table " + PickupTable + " (OrderNum int, Address varchar(60), ContactName varchar(60), " +
-                        "Pieces int, TotalWeight double, DriverID int, OrderDate VARCHAR(20), PRIMARY KEY(OrderNum))";
+                        "Pieces int, TotalWeight double, DriverID int, OrderDate DATE , PRIMARY KEY(OrderNum))";
                 System.out.println(newTable);
                 statementPU.executeUpdate(newTable);
             }
@@ -173,7 +173,7 @@ public class transportManager {
             if (!delTableCheck()) {
 
                 String newTable = "CREATE TABLE " + DeliveryTable + " (OrderNum int, Address varchar(60), ContactName varchar(60), " +
-                        "Pieces INT , TotalWeight DOUBLE, DriverID int, OrderDate VARCHAR(20) , PRIMARY KEY(OrderNum))";
+                        "Pieces INT , TotalWeight DOUBLE, DriverID int, OrderDate DATE , PRIMARY KEY(OrderNum))";
                 System.out.println(newTable);
                 statementDel.executeUpdate(newTable);
 
@@ -252,20 +252,24 @@ public class transportManager {
 
         try {
 
+            //String test = '"' + reportDate + '"';
+
             // These Queries are not working.
             String loadPU = "SELECT * FROM " + PickupTable + " WHERE DriverID = ? AND  OrderDate = ? ";
-            PreparedStatement psPickUp = conn.prepareStatement(loadPU);
-            psPickUp.setInt(1, driverID);
-            psPickUp.setString(2, reportDate);
 
+            prepPU = conn.prepareStatement(loadPU);
+            prepPU.setInt(1, driverID);
+            prepPU.setDate(2, java.sql.Date.valueOf(reportDate));
+            //prepPU.executeQuery(loadPU);
             resSetPickUp = statementPU.executeQuery(loadPU);
 
 
 
-            String loadDel = "SELECT * FROM " + DeliveryTable + " WHERE DriverID = ? AND OrderDate = ?";
-            PreparedStatement psDelivery = conn.prepareStatement(loadDel);
-            psDelivery.setInt(1, driverID);
-            psDelivery.setString(2, reportDate);
+            String loadDel = "SELECT * FROM " + DeliveryTable + " WHERE DriverID = ? AND  OrderDate = ? ";
+            prepDel = conn.prepareStatement(loadDel);
+            prepDel.setInt(1, driverID);
+            prepPU.setDate(2, java.sql.Date.valueOf(reportDate));
+
 
             resSetDel = statementDel.executeQuery(loadDel);
 
@@ -310,7 +314,7 @@ public class transportManager {
             prepPU.setInt(4, boxes);
             prepPU.setDouble(5, weight);
             prepPU.setInt(6, driverID);
-            prepPU.setString(7, date);
+            prepPU.setDate(7, java.sql.Date.valueOf(date));
             prepPU.executeUpdate();
 
 
@@ -348,7 +352,7 @@ public class transportManager {
             prepDel.setInt(4, boxes);
             prepDel.setDouble(5, weight);
             prepDel.setInt(6, driverID);
-            prepDel.setString(7, date);
+            prepDel.setDate(7, java.sql.Date.valueOf(date));
             prepDel.executeUpdate();
 
 
