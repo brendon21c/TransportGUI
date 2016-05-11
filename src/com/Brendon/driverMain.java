@@ -29,6 +29,7 @@ public class driverMain extends JFrame implements WindowListener {
     private JTextField dateEntryField;
 
     public static String dateEntry;
+    public static int driverID;
 
 
     driverMain(DriverModel TTM) {
@@ -43,6 +44,7 @@ public class driverMain extends JFrame implements WindowListener {
         driverTable.setModel(TTM);
         driverTable.setGridColor(Color.BLACK);
         driverTable.getColumnModel().getColumn(0).setWidth(500);
+
 
         // This whole section seems to cause problems when trying to load the table, so I'm going to use strings for the date
         /*
@@ -84,12 +86,15 @@ public class driverMain extends JFrame implements WindowListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                if (dateEntry == null) {
 
+                    JOptionPane.showMessageDialog(rootPane, "You need to enter a date" );
 
-
-                int row = driverTable.getSelectedRow();
-                int driverID = Integer.parseInt(TTM.getValueAt(row, 0).toString());
-                transportManager.showDriverInfo(driverID, dateEntry);
+                } else {
+                    int row = driverTable.getSelectedRow();
+                    driverID = Integer.parseInt(TTM.getValueAt(row, 0).toString());
+                    transportManager.showDriverInfo(driverID, dateEntry);
+                }
 
             }
         });

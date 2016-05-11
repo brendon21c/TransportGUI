@@ -16,7 +16,6 @@ public class jobEntry extends JFrame {
     private JTextField contactDel;
     private JButton addToRouteButton;
     private JTextField DriverID;
-    private JTextField dateEntry;
     private JPanel jobEntryRoot;
 
 
@@ -48,7 +47,7 @@ public class jobEntry extends JFrame {
                 String delContact = contactDel.getText();
 
                 int driver = Integer.parseInt(DriverID.getText());
-                String date = dateEntry.getText();
+                String date = parent.dateEntry;
 
 
                 System.out.println(transportManager.orderNum);
