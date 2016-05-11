@@ -1,5 +1,6 @@
 package com.Brendon;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ public class driverDetails extends JFrame implements WindowListener {
     private JTextArea pickupTextArea;
     private JTextArea deliveryTextArea;
     private JPanel DriverDetailRoot;
+    private JLabel driverIdLabel;
 
 
     driverDetails(PickUpModel PUM){
@@ -22,13 +24,28 @@ public class driverDetails extends JFrame implements WindowListener {
 
         setContentPane(DriverDetailRoot);
         setLocation(300,300);
-        setSize(1000,1000);
+        setSize(new Dimension(1000,1000));
         pack();
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowListener(this);
 
         orderTable.setModel(transportManager.pu_Table);
+        driverIdLabel.setText(String.valueOf(driverMain.driverID));
+
+        /*
+        try {
+
+            Image backButtonImg = ImageIO.read(getClass().getResource("TransportGUI/Icon Files/BackButton.png"));
+            backButton.setIcon(new ImageIcon(backButtonImg));
+
+        } catch (Exception e) {
+
+            System.out.println("error with image file");;
+            e.printStackTrace();
+
+        } */
+
 
         /*
         This block of code hides some of the order details to just show the order number and the date.
@@ -50,7 +67,7 @@ public class driverDetails extends JFrame implements WindowListener {
         orderTable.getColumnModel().getColumn(5).setWidth(0);
 
 
-        orderTable.setGridColor(Color.black);
+        orderTable.setGridColor(Color.white);
         orderTable.getColumnModel().getColumn(0).setWidth(500);
 
 
@@ -73,7 +90,9 @@ public class driverDetails extends JFrame implements WindowListener {
                  */
                 int orderNumPU = Integer.parseInt(transportManager.pu_Table.getValueAt(row,0).toString());
                 String addressPU = transportManager.pu_Table.getValueAt(row,1).toString();
-                System.out.println(orderNumPU);
+                String contactNamePU = transportManager.pu_Table.getValueAt(row,2).toString();
+                int peicesPU = Integer.parseInt(transportManager.pu_Table.getValueAt(row,3).toString());
+                double totalWeightPU = Double.parseDouble(transportManager.pu_Table.getValueAt(row,4).toString());
 
                 pickupTextArea.getLineWrap();
                 pickupTextArea.setEditable(false);
@@ -81,6 +100,9 @@ public class driverDetails extends JFrame implements WindowListener {
 
                 pickupTextArea.append("Order number: " + orderNumPU + newLine);
                 pickupTextArea.append("Address: " + addressPU + newLine);
+                pickupTextArea.append("Contact name: " + contactNamePU + newLine);
+                pickupTextArea.append("Pieces: " + peicesPU + newLine);
+                pickupTextArea.append("Total weight: " + totalWeightPU + newLine);
 
 
                 /*
@@ -88,6 +110,9 @@ public class driverDetails extends JFrame implements WindowListener {
                  */
                 int ordernumDEL = Integer.parseInt(transportManager.delModel.getValueAt(row,0).toString());
                 String addressDel = transportManager.delModel.getValueAt(row,1).toString();
+                String contactName = transportManager.delModel.getValueAt(row,2).toString();
+                int peices = Integer.parseInt(transportManager.delModel.getValueAt(row,3).toString());
+                double totalWeight = Double.parseDouble(transportManager.delModel.getValueAt(row,4).toString());
 
                 deliveryTextArea.getLineWrap();
                 deliveryTextArea.setEditable(false);
@@ -95,6 +120,10 @@ public class driverDetails extends JFrame implements WindowListener {
 
                 deliveryTextArea.append("Order number: " + ordernumDEL + newLine);
                 deliveryTextArea.append("Address: " + addressDel + newLine);
+                deliveryTextArea.append("Contact name: " + contactName + newLine);
+                deliveryTextArea.append("Pieces: " + peices + newLine);
+                deliveryTextArea.append("Total weight: " + totalWeight + newLine);
+
 
 
 
