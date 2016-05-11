@@ -166,6 +166,15 @@
           <text value="Enter Date"/>
         </properties>
       </component>
+      <component id="ef9c7" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Enter date as YYYY-MM-DD"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

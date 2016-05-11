@@ -37,7 +37,6 @@ public class driverMain extends JFrame implements WindowListener {
         setSize(500,500);
         pack();
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowListener(this);
 
         driverTable.setModel(TTM);
@@ -113,6 +112,7 @@ public class driverMain extends JFrame implements WindowListener {
         addJobButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
 
                 jobEntry newJob = new jobEntry(driverMain.this);
 

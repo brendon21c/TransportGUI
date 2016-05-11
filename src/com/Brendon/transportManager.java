@@ -2,7 +2,6 @@ package com.Brendon;
 
 
 import java.sql.*;
-import java.util.Date;
 
 public class transportManager {
 
@@ -31,9 +30,9 @@ public class transportManager {
     public static PreparedStatement prepDel; // for delivery table
 
 
-    private static DriverModel TransportTable;
-    private static PickUpModel PU_Table;
-    private static deliveryModel delModel;
+    public static DriverModel transportTable;
+    public static PickUpModel pu_Table;
+    public static deliveryModel delModel;
 
     public static int DriverID_key;
     public static int orderNum;
@@ -54,7 +53,7 @@ public class transportManager {
             System.exit(-1);
         }
 
-        driverMain driver = new driverMain(TransportTable);
+        driverMain driver = new driverMain(transportTable);
     }
 
     /*
@@ -78,13 +77,13 @@ public class transportManager {
             String loadDriver = "SELECT * FROM " + DriverTable;
             resSetDriver = statementDriver.executeQuery(loadDriver);
 
-            if (TransportTable == null) {
+            if (transportTable == null) {
 
-                TransportTable = new DriverModel(resSetDriver);
+                transportTable = new DriverModel(resSetDriver);
 
             } else {
 
-                TransportTable.UpdateRS(resSetDriver);
+                transportTable.UpdateRS(resSetDriver);
             }
 
 
@@ -92,13 +91,13 @@ public class transportManager {
             String loadPU = "SELECT * FROM " + PickupTable;
             resSetPickUp = statementPU.executeQuery(loadPU);
 
-            if (PU_Table == null) {
+            if (pu_Table == null) {
 
-                PU_Table = new PickUpModel(resSetPickUp);
+                pu_Table = new PickUpModel(resSetPickUp);
 
             } else {
 
-                PU_Table.UpdateRS(resSetPickUp);
+                pu_Table.UpdateRS(resSetPickUp);
             }
 
 
@@ -165,7 +164,7 @@ public class transportManager {
             if (!pickUpTableCheck()) {
 
                 String newTable = "create table " + PickupTable + " (OrderNum int, Address varchar(60), ContactName varchar(60), " +
-                        "Pieces int, TotalWeight double, DriverID int, OrderDate DATE , PRIMARY KEY(OrderNum))";
+                        "Pieces int, TotalWeight double, DriverID int, OrderDate VARCHAR(60) , PRIMARY KEY(OrderNum))";
                 System.out.println(newTable);
                 statementPU.executeUpdate(newTable);
             }
@@ -173,7 +172,7 @@ public class transportManager {
             if (!delTableCheck()) {
 
                 String newTable = "CREATE TABLE " + DeliveryTable + " (OrderNum int, Address varchar(60), ContactName varchar(60), " +
-                        "Pieces INT , TotalWeight DOUBLE, DriverID int, OrderDate DATE , PRIMARY KEY(OrderNum))";
+                        "Pieces INT , TotalWeight DOUBLE, DriverID int, OrderDate VARCHAR(60) , PRIMARY KEY(OrderNum))";
                 System.out.println(newTable);
                 statementDel.executeUpdate(newTable);
 
@@ -259,32 +258,30 @@ public class transportManager {
 
             prepPU = conn.prepareStatement(loadPU);
             prepPU.setInt(1, driverID);
-            prepPU.setDate(2, java.sql.Date.valueOf(reportDate));
-            //prepPU.executeQuery(loadPU);
-            resSetPickUp = statementPU.executeQuery(loadPU);
+            prepPU.setString(2, reportDate);
+            prepPU.executeQuery();
 
+            resSetPickUp = prepPU.executeQuery();
 
 
             String loadDel = "SELECT * FROM " + DeliveryTable + " WHERE DriverID = ? AND  OrderDate = ? ";
             prepDel = conn.prepareStatement(loadDel);
             prepDel.setInt(1, driverID);
-            prepPU.setDate(2, java.sql.Date.valueOf(reportDate));
+            prepDel.setString(2, reportDate);
+            prepDel.executeQuery();
 
 
-            resSetDel = statementDel.executeQuery(loadDel);
-
-
-            if (delModel == null || PU_Table == null) {
+            if (delModel == null || pu_Table == null) {
 
                 delModel = new deliveryModel(resSetDel);
-                PU_Table = new PickUpModel(resSetPickUp);
+                pu_Table = new PickUpModel(resSetPickUp);
 
             } else {
 
-                PU_Table.UpdateRS(resSetPickUp);
+                pu_Table.UpdateRS(resSetPickUp);
                 delModel.UpdateRS(resSetDel);
 
-                driverDetails DD = new driverDetails(PU_Table); // Another problem here is I don;t know how to work with both result sets in the next window.
+                driverDetails DD = new driverDetails(pu_Table); // Another problem here is I don;t know how to work with both result sets in the next window.
             }
 
 
@@ -314,17 +311,19 @@ public class transportManager {
             prepPU.setInt(4, boxes);
             prepPU.setDouble(5, weight);
             prepPU.setInt(6, driverID);
-            prepPU.setDate(7, java.sql.Date.valueOf(date));
+            prepPU.setString(7, date);
             prepPU.executeUpdate();
 
 
-            if (PU_Table == null) {
 
-                PU_Table = new PickUpModel(resSetPickUp);
+
+            if (pu_Table == null) {
+
+                pu_Table = new PickUpModel(resSetPickUp);
 
             } else {
 
-                PU_Table.UpdateRS(resSetPickUp);
+                pu_Table.UpdateRS(resSetPickUp);
             }
 
 
@@ -352,7 +351,7 @@ public class transportManager {
             prepDel.setInt(4, boxes);
             prepDel.setDouble(5, weight);
             prepDel.setInt(6, driverID);
-            prepDel.setDate(7, java.sql.Date.valueOf(date));
+            prepDel.setString(7, date);
             prepDel.executeUpdate();
 
 
