@@ -178,6 +178,10 @@ public class transportManager {
 
             }
 
+            /*
+            This will look for the highest order number in the table and assign it to
+            the orderNum value, or set it to 100, so that no duplicate order numbers are used.
+             */
             String orderNumtemp = "select max(OrderNum) from " + PickupTable;
             statementPU.execute(orderNumtemp);
             ResultSet test = statementPU.getResultSet();
@@ -246,12 +250,14 @@ public class transportManager {
 
     }
 
-
+    /*
+    This section runs a query of the database and sends back the order info for the
+    specified driver id and date.
+     */
     public static void showDriverInfo(int driverID, String reportDate) {
 
         try {
 
-            //String test = '"' + reportDate + '"';
 
             // These Queries are not working.
             String loadPU = "SELECT * FROM " + PickupTable + " WHERE DriverID = ? AND  OrderDate = ? ";
@@ -268,7 +274,8 @@ public class transportManager {
             prepDel = conn.prepareStatement(loadDel);
             prepDel.setInt(1, driverID);
             prepDel.setString(2, reportDate);
-            prepDel.executeQuery();
+
+            resSetDel = prepDel.executeQuery();
 
 
             if (delModel == null || pu_Table == null) {
@@ -281,7 +288,7 @@ public class transportManager {
                 pu_Table.UpdateRS(resSetPickUp);
                 delModel.UpdateRS(resSetDel);
 
-                driverDetails DD = new driverDetails(pu_Table); // Another problem here is I don;t know how to work with both result sets in the next window.
+                driverDetails DD = new driverDetails(pu_Table);
             }
 
 

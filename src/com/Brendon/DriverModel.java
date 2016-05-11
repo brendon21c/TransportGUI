@@ -122,8 +122,6 @@ public class DriverModel extends AbstractTableModel {
 
 
 
-
-
     @Override
     public int getRowCount() {
         rowcount();

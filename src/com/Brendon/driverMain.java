@@ -1,6 +1,7 @@
 package com.Brendon;
 
 import javax.swing.*;
+import javax.swing.text.DateFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,6 +55,10 @@ public class driverMain extends JFrame implements WindowListener {
         System.out.println(lastdate.getTime());
 
         dateSpinner.setModel(new SpinnerDateModel(lastdate.getTime(),earlyDate.getTime(),lastdate.getTime(),Calendar.DAY_OF_MONTH));
+        JSpinner.DateEditor edit = new JSpinner.DateEditor(dateSpinner, "MM-dd-YYY");
+        dateSpinner.setEditor(edit);
+
+        //DateFormatter format = (DateFormatter)edit.getTextField().getFormatter();
         */
 
         selectDateButton.addActionListener(new ActionListener() {

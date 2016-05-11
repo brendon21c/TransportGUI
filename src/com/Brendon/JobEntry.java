@@ -3,6 +3,8 @@ package com.Brendon;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 
 public class jobEntry extends JFrame {
@@ -25,6 +27,7 @@ public class jobEntry extends JFrame {
         setSize(2000, 2000);
         pack();
         setVisible(true);
+        System.out.println(parent.dateEntry);
         System.out.println(transportManager.orderNum);
 
 
@@ -34,6 +37,7 @@ public class jobEntry extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 // these are for the pick up table.
+                transportManager.orderNum++;
                 String addressPickUp = addressPU.getText();
                 String contactPickUp = contactPU.getText();
                 int boxNum = Integer.parseInt(pieces.getText());
@@ -46,15 +50,15 @@ public class jobEntry extends JFrame {
                 int driver = Integer.parseInt(DriverID.getText());
                 String date = dateEntry.getText();
 
+
                 System.out.println(transportManager.orderNum);
 
                 // These insert the information into the respective tables
                 transportManager.insertPickUp(transportManager.orderNum, addressPickUp, contactPickUp, boxNum, weightPU, driver, date);
                 transportManager.insertDel(transportManager.orderNum, addressDelivery, delContact, boxNum, weightPU, driver, date);
 
-                transportManager.orderNum++;
                 System.out.println(transportManager.orderNum);
-                jobEntry.this.dispose();
+                //jobEntry.this.dispose();
 
             }
         });
