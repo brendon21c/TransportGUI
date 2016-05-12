@@ -45,6 +45,18 @@ public class driverMain extends JFrame implements WindowListener {
         driverTable.setGridColor(Color.BLACK);
         driverTable.getColumnModel().getColumn(0).setWidth(500);
 
+        try {
+
+            Icon backButtonImg = new  ImageIcon("Icon Files/driverdetails.png");
+            selectDriverButton.setIcon(backButtonImg);
+
+        } catch (Exception e) {
+
+            System.out.println("error with image file");;
+            e.printStackTrace();
+
+        }
+
 
         // This whole section seems to cause problems when trying to load the table, so I'm going to use strings for the date
         /*

@@ -25,6 +25,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
+          <borderPainted value="false"/>
           <text value="Select Driver"/>
         </properties>
       </component>
